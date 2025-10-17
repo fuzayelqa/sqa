@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OZIH UDDIN AL FUZAYEL | SQA Portfolio</title>
+    <!-- Load Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ------------------------------------------- */
+        /* --- 1. CSS Variable Definitions (Theming) --- */
+        /* ------------------------------------------- */
+
+        /* --- Base Variables (Light Mode Default) --- */
+        :root {
+            --bg-primary: #f0f2f5;        /* Body background */
+            --bg-header: #f7f9fc;         /* Header/Footer (lighter than body) */
+            --bg-card: #ffffff;           /* Section/Card background */
+            --text-primary: #1f2937;      /* Main text/headings */
+            --text-secondary: #6b7280;    /* Secondary text/descriptions */
+            --color-accent: #0d9488;      /* Dark Teal (Skills, Highlights) */
+            --color-blue: #2b6cb0;        /* Professional Blue (Primary CTA) */
+            --bg-accent-light: #e6fffa;   /* Light background for tags/badges */
+            --bg-skill-bar: #e2e8f0;      /* Skill bar track */
+            --border-color: #e5e7eb;      /* Border color */
+        }
+
+        /* --- Dark Mode Variables (.dark class applied to html) --- */
+        .dark {
+            --bg-primary: #111827;
+            --bg-header: #1f2937;
+            --bg-card: #374151;
+            --text-primary: #f3f4f6;
+            --text-secondary: #d1d5db;
+            --color-accent: #2dd4bf;      /* Bright Cyan */
+            --color-blue: #60a5fa;        /* Lighter Blue */
+            --bg-accent-light: #1f2937;
+            --bg-skill-bar: #4b5563;
+            --border-color: #4b5563;
+        }
+
+        /* ------------------------------------------- */
+        /* --- 2. Custom Base Styles using Variables --- */
+        /* ------------------------------------------- */
+
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* Custom utility classes mapping Tailwind utilities to CSS variables */
+        .header-bg { background-color: var(--bg-header); }
+        .hero-section {
+            /* Keep original dark gradient for the hero section background, it looks good in both modes */
+            background-image: linear-gradient(to right, #1a202c, #2d3748);
+        }
+        .card-bg { background-color: var(--bg-card); }
+        .text-primary-var { color: var(--text-primary); }
+        .text-secondary-var { color: var(--text-secondary); }
+        .text-accent-var { color: var(--color-accent); }
+        .bg-accent-light-var { background-color: var(--bg-accent-light); }
+        .skill-bar-fill { background-color: var(--color-accent); }
+        .skill-bar-bg { background-color: var(--bg-skill-bar); }
+        .text-blue-var { color: var(--color-blue); }
+        .bg-blue-var { background-color: var(--color-blue); }
+        .border-var { border-color: var(--border-color); }
+
+        /* General styling replacements */
+        .card-shadow { box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); }
+        .dark .card-shadow { box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); }
+    </style>
+</head>
+<body>
+
+    <!-- Header & Mobile Menu Toggle -->
+    <header class="header-bg card-shadow py-4 sticky top-0 z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center relative">
+            <a href="#" class="flex items-center space-x-2">
+                <!-- SQA Icon (Bug Catcher) -->
+                <svg class="h-8 w-8 text-blue-var" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14H8v-2h5v2zm3-4H8v-2h8v2z"/>
+                </svg>
+                <span class="text-xl font-bold text-primary-var">OZIH UDDIN AL FUZAYEL</span>
+            </a>
+            <div class="flex items-center space-x-4">
+                <!-- Theme Toggle Button -->
+                <button id="theme-toggle" aria-label="Toggle theme" class="p-2 text-primary-var hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-var">
+                    <!-- SVG will be injected by JavaScript -->
+                </button>
+
+                <nav id="desktop-nav" class="hidden md:flex space-x-6">
+                    <a href="#about" class="text-secondary-var hover:text-blue-var font-medium">About</a>
+                    <a href="#skills" class="text-secondary-var hover:text-blue-var font-medium">Skills</a>
+                    <a href="#experience" class="text-secondary-var hover:text-blue-var font-medium">Experience</a>
+                    <a href="#certifications" class="text-secondary-var hover:text-blue-var font-medium">Certifications</a>
+                    <a href="#contact" class="px-4 py-2 bg-blue-var text-white rounded-md hover:bg-blue-700 transition duration-300">Contact</a>
+                </nav>
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-button" class="md:hidden p-2 text-primary-var hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-var">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Menu Container (Initially Hidden) -->
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-header shadow-lg p-4 z-20">
+            <a href="#about" class="block px-3 py-2 rounded-md text-base font-medium text-primary-var hover:bg-gray-200 dark:hover:bg-gray-700">About</a>
+            <a href="#skills" class="block px-3 py-2 rounded-md text-base font-medium text-primary-var hover:bg-gray-200 dark:hover:bg-gray-700">Skills</a>
+            <a href="#experience" class="block px-3 py-2 rounded-md text-base font-medium text-primary-var hover:bg-gray-200 dark:hover:bg-gray-700">Experience</a>
+            <a href="#certifications" class="block px-3 py-2 rounded-md text-base font-medium text-primary-var hover:bg-gray-200 dark:hover:bg-gray-700">Certifications</a>
+            <a href="#contact" class="block px-3 py-2 rounded-md text-base font-medium bg-blue-var text-white mt-2 hover:bg-blue-700">Contact</a>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto mt-8 p-4 sm:px-6 lg:px-8 space-y-12">
+
+        <!-- Hero Section -->
+        <section class="hero-section text-white p-8 md:p-12 rounded-lg card-shadow relative overflow-hidden flex flex-col md:flex-row items-center">
+            <div class="md:w-2/3 space-y-4 text-center md:text-left">
+                <p class="text-lg font-light">Hello, I'm</p>
+                <h1 class="text-4xl sm:text-5xl font-bold leading-tight">OZIH UDDIN AL FUZAYEL</h1>
+                <h2 class="text-2xl sm:text-3xl font-light text-accent-var">Quality Assurance & Automation Engineer</h2>
+                <p class="text-gray-300 max-w-lg mx-auto md:mx-0">
+                    Dedicated SQA professional specializing in full-stack quality engineering, from manual testing to scalable automation frameworks using **Python** and **Selenium**.
+                </p>
+                <div class="mt-6 flex flex-wrap justify-center md:justify-start gap-4">
+                    <a href="#contact" class="inline-block px-6 py-3 bg-blue-var text-white rounded-md hover:bg-blue-700 transition duration-300 text-lg font-medium">
+                        Discuss Projects
+                    </a>
+                    <a href="https://github.com/fuzayelqa" target="_blank" class="inline-block px-6 py-3 border border-white text-white rounded-md hover:bg-gray-700 transition duration-300 text-lg font-medium">
+                        View GitHub
+                    </a>
+                </div>
+            </div>
+            <div class="md:w-1/3 mt-8 md:mt-0 flex justify-center">
+                <img src="img/favicon.jpg" class="rounded-full border-4 border-accent-var card-shadow w-48 h-48 md:w-60 md:h-60 object-cover" onerror="this.onerror=null; this.src='https://placehold.co/250x250/0d9488/ffffff?text=OziH+Photo';">
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="card-bg p-8 rounded-lg card-shadow">
+            <h2 class="text-3xl font-bold text-primary-var mb-6 text-center md:text-left">About Me</h2>
+            <div class="flex flex-col md:flex-row gap-8">
+                <div class="md:w-2/3 space-y-4 text-secondary-var">
+                    <p>
+                        I am an enthusiastic Quality Assurance Engineer with **3+ years** of hands-on experience, specializing in creating reliable and efficient testing solutions. My core competencies revolve around **Python-based automation (Selenium/Pytest)**, comprehensive **API testing (Postman/Newman)**, and rigorous **performance analysis (JMeter/BlazeMeter)**.
+                    </p>
+                    <p>
+                        I integrate seamlessly into agile teams, utilizing **Jira, Git, and Azure DevOps** for streamlined development and deployment pipelines. Beyond traditional SQA roles, I bring a unique perspective from my experience as a **Media Buyer** at Anolipi, demonstrating strong analytical skills and a focus on campaign quality and data integrity.
+                    </p>
+                </div>
+                <div class="md:w-1/3 grid grid-cols-2 gap-4 text-center">
+                    <div class="p-4 bg-header rounded-md card-shadow">
+                        <p class="text-3xl font-bold text-blue-var">3+</p>
+                        <p class="text-secondary-var text-sm">Years Experience</p>
+                    </div>
+                    <div class="p-4 bg-header rounded-md card-shadow">
+                        <p class="text-3xl font-bold text-blue-var">20+</p>
+                        <p class="text-secondary-var text-sm">Projects Tested</p>
+                    </div>
+                    <div class="p-4 bg-header rounded-md card-shadow">
+                        <p class="text-3xl font-bold text-blue-var">90%</p>
+                        <p class="text-secondary-var text-sm">Automation Coverage</p>
+                    </div>
+                    <div class="p-4 bg-header rounded-md card-shadow">
+                        <p class="text-3xl font-bold text-blue-var">4+</p>
+                        <p class="text-secondary-var text-sm">Key Certifications</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="card-bg p-8 rounded-lg card-shadow">
+            <h2 class="text-3xl font-bold text-primary-var mb-8 text-center md:text-left">Technical Skills & Proficiency</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-8">
+                <!-- Skill Set 1: Automation & Programming -->
+                <div>
+                    <h3 class="font-semibold text-xl text-blue-var mb-4">Automation & Frameworks</h3>
+                    <div class="space-y-4">
+                        <!-- Skill Item: Python & Pytest -->
+                        <div class="group">
+                            <h4 class="font-medium text-primary-var mb-1 flex justify-between">
+                                <span>Python & Pytest</span>
+                                <span class="text-sm text-accent-var font-bold">90%</span>
+                            </h4>
+                            <div class="skill-bar-bg h-3 rounded-full overflow-hidden">
+                                <div class="skill-bar-fill h-full rounded-full" style="width: 90%;"></div>
+                            </div>
+                        </div>
+                        <!-- Skill Item: Selenium WebDriver -->
+                        <div class="group">
+                            <h4 class="font-medium text-primary-var mb-1 flex justify-between">
+                                <span>Selenium WebDriver (Web Automation)</span>
+                                <span class="text-sm text-accent-var font-bold">88%</span>
+                            </h4>
+                            <div class="skill-bar-bg h-3 rounded-full overflow-hidden">
+                                <div class="skill-bar-fill h-full rounded-full" style="width: 88%;"></div>
+                            </div>
+                        </div>
+                        <!-- Skill Item: JavaScript -->
+                        <div class="group">
+                            <h4 class="font-medium text-primary-var mb-1 flex justify-between">
+                                <span>JavaScript & Web Tech (HTML, CSS, Bootstrap)</span>
+                                <span class="text-sm text-accent-var font-bold">75%</span>
+                            </h4>
+                            <div class="skill-bar-bg h-3 rounded-full overflow-hidden">
+                                <div class="skill-bar-fill h-full rounded-full" style="width: 75%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Skill Set 2: API & Performance -->
+                <div>
+                    <h3 class="font-semibold text-xl text-blue-var mb-4">API & Performance Testing</h3>
+                    <div class="space-y-4">
+                        <!-- Skill Item: Postman & Newman -->
+                        <div class="group">
+                            <h4 class="font-medium text-primary-var mb-1 flex justify-between">
+                                <span>Postman, JSON & Newman (API Automation)</span>
+                                <span class="text-sm text-accent-var font-bold">95%</span>
+                            </h4>
+                            <div class="skill-bar-bg h-3 rounded-full overflow-hidden">
+                                <div class="skill-bar-fill h-full rounded-full" style="width: 95%;"></div>
+                            </div>
+                        </div>
+                        <!-- Skill Item: JMeter & BlazeMeter -->
+                        <div class="group">
+                            <h4 class="font-medium text-primary-var mb-1 flex justify-between">
+                                <span>JMeter & BlazeMeter (Load/Stress Testing)</span>
+                                <span class="text-sm text-accent-var font-bold">80%</span>
+                            </h4>
+                            <div class="skill-bar-bg h-3 rounded-full overflow-hidden">
+                                <div class="skill-bar-fill h-full rounded-full" style="width: 80%;"></div>
+                            </div>
+                        </div>
+                        <!-- Skill Item: SQL & DB Testing -->
+                        <div class="group">
+                            <h4 class="font-medium text-primary-var mb-1 flex justify-between">
+                                <span>SQL & Database Integrity Testing</span>
+                                <span class="text-sm text-accent-var font-bold">78%</span>
+                            </h4>
+                            <div class="skill-bar-bg h-3 rounded-full overflow-hidden">
+                                <div class="skill-bar-fill h-full rounded-full" style="width: 78%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Skill Set 3: Tools & Methodologies (Tags/Badges) -->
+                <div class="lg:col-span-2 xl:col-span-1">
+                    <h3 class="font-semibold text-xl text-blue-var mb-4">Tools & Methodology</h3>
+                    <div class="flex flex-wrap gap-3">
+                        <span class="bg-accent-light-var text-accent-var text-sm font-semibold px-3 py-1 rounded-full card-shadow">Jira (Bug/Test Management)</span>
+                        <span class="bg-accent-light-var text-accent-var text-sm font-semibold px-3 py-1 rounded-full card-shadow">Git / GitHub (Version Control)</span>
+                        <span class="bg-accent-light-var text-accent-var text-sm font-semibold px-3 py-1 rounded-full card-shadow">Azure DevOps (CI/CD)</span>
+                        <span class="bg-accent-light-var text-accent-var text-sm font-semibold px-3 py-1 rounded-full card-shadow">Manual & Exploratory Testing</span>
+                        <span class="bg-accent-light-var text-accent-var text-sm font-semibold px-3 py-1 rounded-full card-shadow">Agile / Scrum</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience & Projects Section -->
+        <section id="experience" class="card-bg p-8 rounded-lg card-shadow">
+            <h2 class="text-3xl font-bold text-primary-var mb-6 text-center md:text-left">Professional Experience & Key Projects</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                <!-- Project/Experience Card 1: Core Automation -->
+                <div class="border border-var rounded-lg p-5 hover:card-shadow transition duration-300">
+                    <img src="https://placehold.co/300x200/2b6cb0/ffffff?text=Automation+Framework" alt="Automation Project" class="w-full h-40 object-cover rounded-md mb-4" onerror="this.onerror=null; this.src='https://placehold.co/300x200/2b6cb0/ffffff?text=Automation+Framework';">
+                    <h3 class="text-xl font-semibold text-primary-var mb-2">Scalable Automation Framework Development</h3>
+                    <p class="text-secondary-var text-sm mb-3">Designed and implemented a data-driven UI automation framework using **Python, Selenium, and Pytest**. Achieved **85% regression coverage**, significantly speeding up release cycles.</p>
+                    <div class="flex flex-wrap gap-2 mt-4">
+                        <span class="bg-accent-light-var text-accent-var text-xs font-medium px-2.5 py-0.5 rounded-full">Python</span>
+                        <span class="bg-accent-light-var text-accent-var text-xs font-medium px-2.5 py-0.5 rounded-full">Selenium</span>
+                        <span class="bg-accent-light-var text-accent-var text-xs font-medium px-2.5 py-0.5 rounded-full">Pytest</span>
+                    </div>
+                </div>
+
+                <!-- Project/Experience Card 2: API & Performance -->
+                <div class="border border-var rounded-lg p-5 hover:card-shadow transition duration-300">
+                    <img src="https://placehold.co/300x200/2b6cb0/ffffff?text=API+Performance" alt="API Performance Project" class="w-full h-40 object-cover rounded-md mb-4" onerror="this.onerror=null; this.src='https://placehold.co/300x200/2b6cb0/ffffff?text=API+Performance';">
+                    <h3 class="text-xl font-semibold text-primary-var mb-2">API Validation and Load Testing</h3>
+                    <p class="text-secondary-var text-sm mb-3">Executed robust API functional and non-functional testing using **Postman, Newman, JMeter, and BlazeMeter**. Ensured backend stability and performance under peak loads.</p>
+                    <div class="flex flex-wrap gap-2 mt-4">
+                        <span class="bg-accent-light-var text-accent-var text-xs font-medium px-2.5 py-0.5 rounded-full">Postman</span>
+                        <span class="bg-accent-light-var text-accent-var text-xs font-medium px-2.5 py-0.5 rounded-full">JMeter</span>
+                        <span class="bg-accent-light-var text-accent-var text-xs font-medium px-2.5 py-0.5 rounded-full">JSON</span>
+                    </div>
+                </div>
+
+                <!-- Project/Experience Card 3: Internship/Unique Role -->
+                <div class="border border-var rounded-lg p-5 hover:card-shadow transition duration-300">
+                    <img src="https://placehold.co/300x200/2b6cb0/ffffff?text=Anolipi" alt="Anolipi Experience" class="w-full h-40 object-cover rounded-md mb-4" onerror="this.onerror=null; this.src='https://placehold.co/300x200/2b6cb0/ffffff?text=Anolipi';">
+                    <h3 class="text-xl font-semibold text-primary-var mb-2">Media Buyer & Quality Assurance at Anolipi</h3>
+                    <p class="text-secondary-var text-sm mb-3">Managed quality control for digital campaigns, ensuring data consistency and functionality across various platforms. Applied meticulous QA principles to a business domain.</p>
+                    <div class="flex flex-wrap gap-2 mt-4">
+                        <span class="bg-accent-light-var text-accent-var text-xs font-medium px-2.5 py-0.5 rounded-full">Data Quality</span>
+                        <span class="bg-accent-light-var text-accent-var text-xs font-medium px-2.5 py-0.5 rounded-full">Analytical Skills</span>
+                        <span class="bg-accent-light-var text-accent-var text-xs font-medium px-2.5 py-0.5 rounded-full">Business Logic</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Certifications Section -->
+        <section id="certifications" class="card-bg p-8 rounded-lg card-shadow">
+            <h2 class="text-3xl font-bold text-primary-var mb-6 text-center md:text-left">Education & Certifications</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Certification 1: Mindluster -->
+                <div class="flex items-center space-x-4 border border-var p-4 rounded-md bg-header">
+                    <svg class="w-10 h-10 text-blue-var flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.01 12.01 0 002.944 12c.048 4.67 3.018 8.44 7.378 10.05a12.022 12.022 0 003.356 0c4.36-.61 7.33-5.38 7.378-10.05.02-3.868-1.574-7.464-4.416-10.016z"></path></svg>
+                    <div>
+                        <h3 class="font-semibold text-primary-var">Certificate of Mindluster</h3>
+                        <p class="text-secondary-var text-sm">Selenium, Postman, JMeter Proficiency</p>
+                    </div>
+                </div>
+                <!-- Certification 2: Alison Diploma -->
+                <div class="flex items-center space-x-4 border border-var p-4 rounded-md bg-header">
+                    <svg class="w-10 h-10 text-blue-var flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.414 9.42 5 8 5c-4 0-4 4-4 8s0 8 4 8c1.42 0 2.832-.414 4-1.117M12 6.253c1.168.836 2.58 1.253 4 1.253 4 0 4-4 4-8s0-8-4-8c-1.42 0-2.832.414-4 1.117m0 6.134v-5.088c.045-.259.1-.515.163-.769"></path></svg>
+                    <div>
+                        <h3 class="font-semibold text-primary-var">Diploma in Software Testing</h3>
+                        <p class="text-secondary-var text-sm">Alison Certification</p>
+                    </div>
+                </div>
+                <!-- Experience 3: NTech Academy -->
+                <div class="flex items-center space-x-4 border border-var p-4 rounded-md bg-header">
+                    <svg class="w-10 h-10 text-blue-var flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                    <div>
+                        <h3 class="font-semibold text-primary-var">Internship Program</h3>
+                        <p class="text-secondary-var text-sm">NTech Academy (Practical Training)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="card-bg p-8 rounded-lg card-shadow">
+            <h2 class="text-3xl font-bold text-primary-var mb-6 text-center md:text-left">Get In Touch</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Contact Info Column -->
+                <div class="space-y-4">
+                    <p class="text-secondary-var">I am currently available for new opportunities and projects. Feel free to connect via email or LinkedIn.</p>
+                    <div class="flex items-center space-x-3">
+                        <svg class="w-6 h-6 text-blue-var" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8m-2 4v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"></path></svg>
+                        <span class="text-secondary-var font-medium">ozihuddinalfuzayel@gmail.com</span>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <svg class="w-6 h-6 text-blue-var" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.75s.784-1.75 1.75-1.75 1.75.79 1.75 1.75-.783 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.263-4 0v5.604h-3v-11h3v1.765c1.397-2.522 4-2.505 4-2.505 2.75 0 5 2.57 5 6.001v5.739z"/></svg>
+                        <a href="https://www.linkedin.com/in/ozih-uddin-al-fuzayel-02bb40217/" target="_blank" class="text-blue-var hover:underline font-medium">LinkedIn Profile</a>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <svg class="w-6 h-6 text-blue-var" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.086-.744.082-.73.082-.73 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.304.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.046.138 3.003.404 2.292-1.552 3.301-1.23 3.301-1.23.653 1.653.242 2.873.117 3.176.766.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.82 24 17.302 24 12c0-6.627-5.373-12-12-12z"/></svg>
+                        <a href="https://github.com/fuzayelqa" target="_blank" class="text-blue-var hover:underline font-medium">github.com/fuzayelqa</a>
+                    </div>
+                </div>
+
+                <!-- Contact Form Column -->
+                <form class="space-y-4">
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-secondary-var mb-1">Name</label>
+                        <input type="text" id="name" class="w-full p-3 border border-var rounded-md focus:ring-blue-var focus:border-blue-var card-bg text-primary-var" placeholder="Your Name">
+                    </div>
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-secondary-var mb-1">Email</label>
+                        <input type="email" id="email" class="w-full p-3 border border-var rounded-md focus:ring-blue-var focus:border-blue-var card-bg text-primary-var" placeholder="your@example.com">
+                    </div>
+                    <div>
+                        <label for="message" class="block text-sm font-medium text-secondary-var mb-1">Message</label>
+                        <textarea id="message" rows="4" class="w-full p-3 border border-var rounded-md focus:ring-blue-var focus:border-blue-var card-bg text-primary-var" placeholder="Your message..."></textarea>
+                    </div>
+                    <button type="submit" class="w-full px-6 py-3 bg-blue-var text-white rounded-md hover:bg-blue-700 transition duration-300 font-semibold">
+                        Send Message
+                    </button>
+                    <!-- Note: This form is static and does not submit to a backend. -->
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p>&copy; 2023 OZIH UDDIN AL FUZAYEL. All rights reserved.</p>
+            <div class="flex justify-center space-x-6 mt-4">
+                <a href="https://www.linkedin.com/in/ozih-uddin-al-fuzayel-02bb40217/" target="_blank" class="text-gray-300 hover:text-blue-var">LinkedIn</a>
+                <a href="https://github.com/fuzayelqa" target="_blank" class="text-gray-300 hover:text-blue-var">GitHub</a>
+                <a href="mailto:ozihuddinalfuzayel@gmail.com" class="text-gray-300 hover:text-blue-var">Email</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile menu and Theme toggle script -->
+    <script>
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navLinks = mobileMenu.querySelectorAll('a');
+
+        // Toggle visibility of the mobile menu
+        mobileMenuButton.addEventListener('click', function() {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Hide mobile menu when a link is clicked (for smooth scroll navigation)
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Optional: Hide mobile menu when resizing to desktop view
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 768) { // 768px is Tailwind's 'md' breakpoint
+                mobileMenu.classList.add('hidden');
+            }
+        });
+
+        /* ------------------------------------------- */
+        /* --- Theme Toggle Script --- */
+        /* ------------------------------------------- */
+
+        const themeToggleButton = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+
+        // SVG Icons for the toggle button
+        const sunIcon = `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>`; // Sun
+        const moonIcon = `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>`; // Moon
+
+        function updateTheme(theme) {
+            if (theme === 'dark') {
+                html.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                themeToggleButton.innerHTML = sunIcon; // Show Sun icon in dark mode
+            } else {
+                html.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                themeToggleButton.innerHTML = moonIcon; // Show Moon icon in light mode
+            }
+        }
+
+        // 1. Initialize theme on load
+        const storedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        if (storedTheme) {
+            updateTheme(storedTheme);
+        } else if (prefersDark) {
+            // If no storage, use OS preference as default
+            updateTheme('dark');
+        } else {
+            updateTheme('light');
+        }
+
+        // 2. Add event listener to toggle
+        themeToggleButton.addEventListener('click', () => {
+            const currentTheme = html.classList.contains('dark') ? 'dark' : 'light';
+            updateTheme(currentTheme === 'light' ? 'dark' : 'light');
+        });
+    </script>
+</body>
+</html>
